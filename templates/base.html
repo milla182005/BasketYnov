@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ynov Basket</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand"><a href="/">Ynov Basket</a></div>
+    {% if session.get('user') %}
+      <a href="{{ url_for('players') }}">Joueurs</a>
+      <a href="{{ url_for('team_redirect', team_id=0) }}">Équipes</a>
+      <a href="{{ url_for('players') }}">Matchs</a>
+      <div class="spacer"></div>
+      <span class="user">{{ session.get('user') }}</span>
+      <a href="{{ url_for('logout') }}">Déconnexion</a>
+    {% endif %}
+  </nav>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

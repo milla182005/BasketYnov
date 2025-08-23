@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Joueurs</h1>
+
+<form method="get" class="search">
+  <input name="q" placeholder="Rechercher par nom..." value="{{ q }}">
+  <button type="submit">Rechercher</button>
+</form>
+
+<div class="grid">
+  {% for p in players %}
+  <a class="card" href="{{ url_for('player_detail', player_id=p.id) }}">
+    <div class="title">{{ p.first_name }} {{ p.last_name }}</div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="pager">
+  {% if meta.previous_page %}
+    <a href="{{ url_for('players', page=meta.previous_page, q=q) }}">← Précédent</a>
+  {% endif %}
+  {% if meta.next_page %}
+    <a href="{{ url_for('players', page=meta.next_page, q=q) }}">Suivant →</a>
+  {% endif %}
+</div>
+{% endblock %}
