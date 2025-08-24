@@ -17,12 +17,22 @@
     </ul>
   </div>
 
-  <a class="card" href="{{ url_for('team_redirect', team_id=p["team"]["id"]) }}">
-    <div class="title">Équipe</div>
-    <p>{{ p["team"]["full_name"] }} ({{ p["team"]["abbreviation"] }})</p>
-    <p>{{ p["team"]["city"] }} — {{ p["team"]["conference"] }} / {{ p["team"]["division"] }}</p>
-    <small>Cliquez pour voir l'équipe</small>
-  </a>
+  {% if p["team"]["id"] != 0 %}
+    <a class="card" href="{{ url_for('team_detail', team_id=p["team"]["id"]) }}">
+  {% else %}
+    <div class="card">
+  {% endif %}
+      <div class="title">Équipe</div>
+      <p>{{ p["team"]["full_name"] }} ({{ p["team"]["abbreviation"] }})</p>
+      <p>{{ p["team"]["city"] }} — {{ p["team"]["conference"] }} / {{ p["team"]["division"] }}</p>
+      {% if p["team"]["id"] != 0 %}
+        <small>Cliquez pour voir l'équipe</small>
+      {% endif %}
+  {% if p["team"]["id"] != 0 %}
+    </a>
+  {% else %}
+    </div>
+  {% endif %}
 </div>
 
 <p><a href="{{ url_for('players') }}">← Retour aux joueurs</a></p>
