@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ team.full_name }}</h1>
+
+<div class="grid">
+  <div class="card">
+    <div class="title">Informations sur l'équipe</div>
+    <ul>
+      <li>Nom : {{ team.full_name }}</li>
+      <li>Ville : {{ team.city }}</li>
+      <li>Conférence : {{ team.conference }}</li>
+      <li>Division : {{ team.division }}</li>
+      <li>Abbréviation : {{ team.abbreviation }}</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Joueurs de l'équipe</h2>
+<div class="grid">
+  {% for p in players %}
+    <a class="card" href="{{ url_for('player_detail', player_id=p.id) }}">
+      <div class="title">{{ p.first_name }} {{ p.last_name }}</div>
+      <p>Position : {{ p.position or "?" }}</p>
+    </a>
+  {% else %}
+    <p>Aucun joueur trouvé pour cette équipe.</p>
+  {% endfor %}
+</div>
+
+<p><a href="{{ url_for('teams') }}">← Retour aux équipes</a></p>
+{% endblock %}

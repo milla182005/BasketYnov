@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Liste des équipes</h1>
+
+<div class="grid">
+  {% for t in teams %}
+    <a class="card" href="{{ url_for('team_detail', team_id=t.id) }}">
+      <div class="title">{{ t.full_name }}</div>
+      <p>{{ t.city }} — {{ t.conference }} / {{ t.division }}</p>
+    </a>
+  {% endfor %}
+</div>
+
+<p><a href="{{ url_for('players') }}">← Retour aux joueurs</a></p>
+{% endblock %}
