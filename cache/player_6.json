@@ -1,0 +1,25 @@
+{
+    "data": {
+        "id": 6,
+        "first_name": "LaMarcus",
+        "last_name": "Aldridge",
+        "position": "F",
+        "height": "6-11",
+        "weight": "250",
+        "jersey_number": "21",
+        "college": "University of Texas at Austin",
+        "country": "USA",
+        "draft_year": 2006,
+        "draft_round": 1,
+        "draft_number": 2,
+        "team": {
+            "id": 3,
+            "conference": "East",
+            "division": "Atlantic",
+            "city": "Brooklyn",
+            "name": "Nets",
+            "full_name": "Brooklyn Nets",
+            "abbreviation": "BKN"
+        }
+    }
+}

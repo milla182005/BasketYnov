@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, request, session, render_template
-import requests, json, os
+import requests, json, os, time
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 
@@ -11,11 +11,21 @@ API_KEY = os.getenv("BALL_KEY") or "beec8528-10d0-422f-8178-c1b0988e0639"
 API_HEADERS = {"Authorization": API_KEY}
 API_BASE = "https://api.balldontlie.io/v1"
 
-# ---------- cache ----------
-CACHE = {
-    "teams": None,  # stocke la liste des équipes
-    "players": {}   # clé = page+recherche, valeur = data
-}
+# ---------- cache persistant ----------
+CACHE_DIR = "cache"
+os.makedirs(CACHE_DIR, exist_ok=True)
+
+def cache_load(key):
+    filepath = os.path.join(CACHE_DIR, f"{key}.json")
+    if os.path.exists(filepath):
+        with open(filepath, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
+
+def cache_save(key, data):
+    filepath = os.path.join(CACHE_DIR, f"{key}.json")
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
 
 # ---------- utils ----------
 def load_users():
@@ -85,12 +95,10 @@ def logout():
 def players():
     page = request.args.get("page", 1, type=int)
     q = request.args.get("q", "", type=str)
-    cache_key = f"{page}_{q}"
+    cache_key = f"players_page{page}_q{q}"
 
-    # Vérifier le cache
-    if cache_key in CACHE["players"]:
-        data = CACHE["players"][cache_key]
-    else:
+    data = cache_load(cache_key)
+    if not data:
         url = f"{API_BASE}/players"
         params = {"per_page": 25, "page": page}
         if q:
@@ -99,7 +107,7 @@ def players():
             r = requests.get(url, headers=API_HEADERS, params=params, timeout=8)
             r.raise_for_status()
             data = r.json()
-            CACHE["players"][cache_key] = data  # mettre en cache
+            cache_save(cache_key, data)
         except requests.exceptions.RequestException as e:
             return render_template("error.html", message=f"Erreur lors de la récupération des joueurs : {e}")
         except ValueError:
@@ -112,15 +120,19 @@ def players():
 @app.route('/player/<int:player_id>')
 @login_required
 def player_detail(player_id):
-    url = f"{API_BASE}/players/{player_id}"
-    try:
-        r = requests.get(url, headers=API_HEADERS, timeout=8)
-        r.raise_for_status()
-        p = r.json()
-    except requests.exceptions.RequestException as e:
-        return render_template("error.html", message=f"Erreur lors de la récupération du joueur : {e}")
-    except ValueError:
-        return render_template("error.html", message="Réponse API non valide (JSON attendu).")
+    cache_key = f"player_{player_id}"
+    p = cache_load(cache_key)
+    if not p:
+        url = f"{API_BASE}/players/{player_id}"
+        try:
+            r = requests.get(url, headers=API_HEADERS, timeout=8)
+            r.raise_for_status()
+            p = r.json()
+            cache_save(cache_key, p)
+        except requests.exceptions.RequestException as e:
+            return render_template("error.html", message=f"Erreur lors de la récupération du joueur : {e}")
+        except ValueError:
+            return render_template("error.html", message="Réponse API non valide (JSON attendu).")
 
     if "team" not in p or not p["team"]:
         p["team"] = {
@@ -138,54 +150,118 @@ def player_detail(player_id):
 @app.route('/teams')
 @login_required
 def teams():
-    # Vérifier le cache
-    if CACHE["teams"]:
-        teams = CACHE["teams"]
-    else:
+    cache_key = "teams"
+    teams = cache_load(cache_key)
+    if not teams:
         url = f"{API_BASE}/teams"
         try:
             r = requests.get(url, headers=API_HEADERS, timeout=8)
             r.raise_for_status()
             data = r.json()
             teams = data.get("data", [])
-            CACHE["teams"] = teams  # mettre en cache
+            cache_save(cache_key, teams)
         except requests.exceptions.RequestException as e:
             return render_template("error.html", message=f"Erreur lors de la récupération des équipes : {e}")
         except ValueError:
             return render_template("error.html", message="Réponse API non valide (JSON attendu).")
-
     return render_template("teams.html", teams=teams)
 
 @app.route('/team/<int:team_id>')
 @login_required
 def team_detail(team_id):
-    url = f"{API_BASE}/teams/{team_id}"
-    try:
-        r = requests.get(url, headers=API_HEADERS, timeout=8)
-        r.raise_for_status()
-        team = r.json()
-    except requests.exceptions.RequestException as e:
-        return render_template("error.html", message=f"Erreur lors de la récupération de l'équipe : {e}")
-    except ValueError:
-        return render_template("error.html", message="Réponse API non valide (JSON attendu).")
-
-    players_url = f"{API_BASE}/players"
-    params = {"per_page": 100, "team_ids[]": team_id}
-    try:
-        r = requests.get(players_url, headers=API_HEADERS, params=params, timeout=8)
-        r.raise_for_status()
-        data = r.json()
-        players = data.get("data", [])
-    except:
-        players = []
-
+    cache_key = f"team_{team_id}"
+    team = cache_load(cache_key)
+    if not team:
+        url = f"{API_BASE}/teams/{team_id}"
+        try:
+            r = requests.get(url, headers=API_HEADERS, timeout=8)
+            r.raise_for_status()
+            team = r.json()
+            cache_save(cache_key, team)
+        except:
+            team = {}
+    players_cache_key = f"team_players_{team_id}"
+    players = cache_load(players_cache_key)
+    if not players:
+        players_url = f"{API_BASE}/players"
+        params = {"per_page": 100, "team_ids[]": team_id}
+        try:
+            r = requests.get(players_url, headers=API_HEADERS, params=params, timeout=8)
+            r.raise_for_status()
+            data = r.json()
+            players = data.get("data", [])
+            cache_save(players_cache_key, players)
+        except:
+            players = []
     return render_template("team.html", team=team, players=players)
 
 # ---------- MATCHES ----------
 @app.route('/matches')
 @login_required
 def matches():
-    return render_template("error.html", message="Page Matchs à implémenter prochainement.")
+    page = request.args.get("page", 1, type=int)
+    cache_key = f"matches_page{page}"
+
+    data = cache_load(cache_key)
+    if not data:
+        url = f"{API_BASE}/games"
+        params = {"per_page": 5, "page": page}
+        try:
+            r = requests.get(url, headers=API_HEADERS, params=params, timeout=8)
+            r.raise_for_status()
+            data = r.json()
+            cache_save(cache_key, data)
+        except requests.exceptions.RequestException as e:
+            return render_template("error.html", message=f"Erreur lors de la récupération des matchs : {e}")
+        except ValueError:
+            return render_template("error.html", message="Réponse API non valide (JSON attendu).")
+
+    matches = data.get("data", [])
+    meta = data.get("meta", {})
+    return render_template("matches.html", matches=matches, meta=meta)
+
+@app.route('/match/<int:match_id>')
+@login_required
+def match_detail(match_id):
+    cache_key = f"match_{match_id}"
+    match_data = cache_load(cache_key)
+    if not match_data:
+        url = f"{API_BASE}/games/{match_id}"
+        try:
+            r = requests.get(url, headers=API_HEADERS, timeout=8)
+            r.raise_for_status()
+            match_data = r.json().get("data", {})
+            cache_save(cache_key, match_data)
+        except:
+            match_data = {}
+
+    # Récupérer les équipes complètes
+    home_team_id = match_data.get("home_team", {}).get("id", 0)
+    visitor_team_id = match_data.get("visitor_team", {}).get("id", 0)
+
+    home_team = cache_load(f"team_{home_team_id}") or {}
+    visitor_team = cache_load(f"team_{visitor_team_id}") or {}
+    if not home_team and home_team_id:
+        try:
+            r = requests.get(f"{API_BASE}/teams/{home_team_id}", headers=API_HEADERS, timeout=8)
+            r.raise_for_status()
+            home_team = r.json()
+            cache_save(f"team_{home_team_id}", home_team)
+        except:
+            home_team = {}
+    if not visitor_team and visitor_team_id:
+        try:
+            r = requests.get(f"{API_BASE}/teams/{visitor_team_id}", headers=API_HEADERS, timeout=8)
+            r.raise_for_status()
+            visitor_team = r.json()
+            cache_save(f"team_{visitor_team_id}", visitor_team)
+        except:
+            visitor_team = {}
+
+    match_data["home_team_full"] = home_team
+    match_data["visitor_team_full"] = visitor_team
+
+    return render_template("match.html", match=match_data)
 
 # ---------- RUN ----------
 if __name__ == "__main__":

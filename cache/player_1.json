@@ -1,0 +1,25 @@
+{
+    "data": {
+        "id": 1,
+        "first_name": "Alex",
+        "last_name": "Abrines",
+        "position": "G",
+        "height": "6-6",
+        "weight": "190",
+        "jersey_number": "8",
+        "college": "FC Barcelona",
+        "country": "Spain",
+        "draft_year": 2013,
+        "draft_round": 2,
+        "draft_number": 32,
+        "team": {
+            "id": 21,
+            "conference": "West",
+            "division": "Northwest",
+            "city": "Oklahoma City",
+            "name": "Thunder",
+            "full_name": "Oklahoma City Thunder",
+            "abbreviation": "OKC"
+        }
+    }
+}

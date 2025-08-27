@@ -1,0 +1,158 @@
+{
+    "data": [
+        {
+            "id": 874129,
+            "date": "1946-11-01",
+            "season": 1946,
+            "status": "Final",
+            "period": 4,
+            "time": null,
+            "postseason": false,
+            "home_team_score": 66,
+            "visitor_team_score": 68,
+            "datetime": null,
+            "home_team": {
+                "id": 41,
+                "conference": "    ",
+                "division": "",
+                "city": "",
+                "name": "Toronto Huskies",
+                "full_name": "Toronto Huskies",
+                "abbreviation": "HUS"
+            },
+            "visitor_team": {
+                "id": 20,
+                "conference": "East",
+                "division": "Atlantic",
+                "city": "New York",
+                "name": "Knicks",
+                "full_name": "New York Knicks",
+                "abbreviation": "NYK"
+            }
+        },
+        {
+            "id": 874125,
+            "date": "1946-11-02",
+            "season": 1946,
+            "status": "Final",
+            "period": 4,
+            "time": null,
+            "postseason": false,
+            "home_team_score": 63,
+            "visitor_team_score": 47,
+            "datetime": null,
+            "home_team": {
+                "id": 37,
+                "conference": "    ",
+                "division": "",
+                "city": "",
+                "name": "Chicago Stags",
+                "full_name": "Chicago Stags",
+                "abbreviation": "CHS"
+            },
+            "visitor_team": {
+                "id": 20,
+                "conference": "East",
+                "division": "Atlantic",
+                "city": "New York",
+                "name": "Knicks",
+                "full_name": "New York Knicks",
+                "abbreviation": "NYK"
+            }
+        },
+        {
+            "id": 874126,
+            "date": "1946-11-02",
+            "season": 1946,
+            "status": "Final",
+            "period": 4,
+            "time": null,
+            "postseason": false,
+            "home_team_score": 59,
+            "visitor_team_score": 53,
+            "datetime": null,
+            "home_team": {
+                "id": 43,
+                "conference": "    ",
+                "division": "",
+                "city": "",
+                "name": "Providence Steamrollers",
+                "full_name": "Providence Steamrollers",
+                "abbreviation": "PRO"
+            },
+            "visitor_team": {
+                "id": 2,
+                "conference": "East",
+                "division": "Atlantic",
+                "city": "Boston",
+                "name": "Celtics",
+                "full_name": "Boston Celtics",
+                "abbreviation": "BOS"
+            }
+        },
+        {
+            "id": 874127,
+            "date": "1946-11-02",
+            "season": 1946,
+            "status": "Final",
+            "period": 4,
+            "time": null,
+            "postseason": false,
+            "home_team_score": 56,
+            "visitor_team_score": 51,
+            "datetime": null,
+            "home_team": {
+                "id": 38,
+                "conference": "    ",
+                "division": "",
+                "city": "",
+                "name": "St. Louis Bombers",
+                "full_name": "St. Louis Bombers",
+                "abbreviation": "BOM"
+            },
+            "visitor_team": {
+                "id": 44,
+                "conference": "    ",
+                "division": "",
+                "city": "",
+                "name": "Pittsburgh Ironmen",
+                "full_name": "Pittsburgh Ironmen",
+                "abbreviation": "PIT"
+            }
+        },
+        {
+            "id": 874128,
+            "date": "1946-11-02",
+            "season": 1946,
+            "status": "Final",
+            "period": 4,
+            "time": null,
+            "postseason": false,
+            "home_team_score": 33,
+            "visitor_team_score": 50,
+            "datetime": null,
+            "home_team": {
+                "id": 40,
+                "conference": "    ",
+                "division": "",
+                "city": "",
+                "name": "Detroit Falcons",
+                "full_name": "Detroit Falcons",
+                "abbreviation": "DEF"
+            },
+            "visitor_team": {
+                "id": 42,
+                "conference": "    ",
+                "division": "",
+                "city": "",
+                "name": "Washington Capitols",
+                "full_name": "Washington Capitols",
+                "abbreviation": "WAS"
+            }
+        }
+    ],
+    "meta": {
+        "next_cursor": 874128,
+        "per_page": 5
+    }
+}

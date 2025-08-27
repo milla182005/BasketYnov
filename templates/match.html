@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Détails du match</h1>
+
+<div class="grid">
+  <div class="card">
+    <div class="title">Informations</div>
+    <ul>
+      {% if match.get('date') %}
+        <li>Date : {{ match['date'][:10] }}</li>
+      {% else %}
+        <li>Date : Non disponible</li>
+      {% endif %}
+      <li>Saison : {{ match.get('season', 'N/A') }}</li>
+      <li>Période : {{ match.get('period', 'N/A') }}</li>
+      <li>Statut : {{ match.get('status', 'N/A') }}</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="title">Équipes</div>
+    <p>
+      <a href="{{ url_for('team_detail', team_id=match['home_team']['id']) }}">
+        {{ match['home_team']['full_name'] }}
+      </a>
+      ({{ match['home_team_score'] }})
+    </p>
+    <p>
+      <a href="{{ url_for('team_detail', team_id=match['visitor_team']['id']) }}">
+        {{ match['visitor_team']['full_name'] }}
+      </a>
+      ({{ match['visitor_team_score'] }})
+    </p>
+  </div>
+</div>
+
+<p><a href="{{ url_for('matches') }}">← Retour aux matchs</a></p>
+{% endblock %}

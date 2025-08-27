@@ -19,6 +19,7 @@
   {% if meta.previous_page %}
     <a href="{{ url_for('players', page=meta.previous_page, q=q) }}">← Précédent</a>
   {% endif %}
+  Page {{ meta.current_page }}
   {% if meta.next_page %}
     <a href="{{ url_for('players', page=meta.next_page, q=q) }}">Suivant →</a>
   {% endif %}

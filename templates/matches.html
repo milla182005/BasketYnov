@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Liste des matchs</h1>
+
+<div class="grid">
+  {% for match in matches %}
+  <a class="card" href="{{ url_for('match_detail', match_id=match['id']) }}">
+    <div class="title">
+      {{ match['home_team']['full_name'] if match.get('home_team') else "Équipe inconnue" }}
+      vs
+      {{ match['visitor_team']['full_name'] if match.get('visitor_team') else "Équipe inconnue" }}
+    </div>
+    <div class="subtitle">{{ match['date'][:10] if match.get('date') else "Date inconnue" }}</div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="pager">
+  {% if meta.previous_page %}
+    <a href="{{ url_for('matches', page=meta.previous_page) }}">← Précédent</a>
+  {% endif %}
+  Page {{ meta.current_page }}
+  {% if meta.next_page %}
+    <a href="{{ url_for('matches', page=meta.next_page) }}">Suivant →</a>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{
+    "id": 874129,
+    "date": "1946-11-01",
+    "season": 1946,
+    "status": "Final",
+    "period": 4,
+    "time": null,
+    "postseason": false,
+    "home_team_score": 66,
+    "visitor_team_score": 68,
+    "datetime": null,
+    "home_team": {
+        "id": 41,
+        "conference": "    ",
+        "division": "",
+        "city": "",
+        "name": "Toronto Huskies",
+        "full_name": "Toronto Huskies",
+        "abbreviation": "HUS"
+    },
+    "visitor_team": {
+        "id": 20,
+        "conference": "East",
+        "division": "Atlantic",
+        "city": "New York",
+        "name": "Knicks",
+        "full_name": "New York Knicks",
+        "abbreviation": "NYK"
+    }
+}
