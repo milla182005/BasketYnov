@@ -1,12 +1,166 @@
-body { font-family: Arial, sans-serif; margin:0; background:#f6f7fb; color:#0b1220; }
-.nav { display:flex; gap:12px; padding:12px 20px; background:#1f2937; color:white; align-items:center; }
-.nav a { color: #cbd5e1; text-decoration:none; margin-right:8px; }
-.nav .spacer { flex:1; }
-.container { max-width:1100px; margin:20px auto; padding:0 16px; }
-.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:12px; margin-top:12px; }
-.card { background:white; padding:12px; border-radius:10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); text-align:center; text-decoration:none; color:inherit; border:1px solid #e6eef8;}
-.card:hover { transform: translateY(-4px); transition: .12s ease; }
-.title { font-weight:600; margin-bottom:6px; }
-.form-card { max-width:360px; background:white; padding:12px; border-radius:10px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
-.search { margin-bottom:8px; }
-.pager { margin-top:16px; display:flex; gap:8px; }
+/* -------------------- GLOBAL -------------------- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f0f4f8;
+    color: #1f2937;
+}
+
+/* -------------------- NAV -------------------- */
+.nav {
+    display: flex;
+    gap: 12px;
+    padding: 12px 20px;
+    background: #3b82f6; /* bleu clair */
+    color: white;
+    align-items: center;
+}
+
+.nav a {
+    color: #e0f2fe; /* contraste doux */
+    text-decoration: none;
+    margin-right: 8px;
+    font-weight: 500;
+}
+
+.nav a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.nav .spacer {
+    flex: 1;
+}
+
+/* -------------------- CONTAINER -------------------- */
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 16px;
+}
+
+/* -------------------- GRID / CARDS -------------------- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.card {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #dbeafe; /* bord bleu clair */
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1e40af; /* bleu foncé pour le titre */
+}
+
+/* -------------------- FORM CARD -------------------- */
+.form-card {
+    max-width: 360px;
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.search {
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    width: 100%;
+}
+
+.search:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.4);
+}
+
+/* -------------------- PAGINATION -------------------- */
+.pager {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+}
+
+.pager a {
+    padding: 6px 12px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.pager a:hover {
+    background: #2563eb;
+}
+
+/* -------------------- LOGIN / REGISTER CENTERING -------------------- */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* plein écran verticalement */
+    background: linear-gradient(120deg, #e0f2fe, #f0f4f8); /* bleu doux */
+    padding: 16px;
+}
+
+.auth-page .form-card {
+    max-width: 400px;
+    width: 100%;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border: 1px solid #dbeafe;
+    text-align: center;
+    background: white;
+}
+
+.auth-page .form-card input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.auth-page .form-card input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 6px rgba(59,130,246,0.4);
+}
+
+.auth-page .form-card button {
+    width: 100%;
+    padding: 14px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.auth-page .form-card button:hover {
+    background: #2563eb;
+}
